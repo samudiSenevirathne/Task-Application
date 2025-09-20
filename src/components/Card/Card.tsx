@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AnotherBar from "../AnotherBar/AnotherBar";
 import Image, { StaticImageData } from "next/image";
 
@@ -30,8 +30,24 @@ const cards: Card[] = [
 
 export default function Card() {
     const [index, setIndex] = useState(0);
+    const [visibleCount, setVisibleCount] = useState(3.5);
 
-    const visibleCount = 3.3; 
+    useEffect(() => {
+        const updateVisibleCount = () => {
+            const width = window.innerWidth;
+            if (width < 640) {
+                setVisibleCount(1); // Mobile
+            } else if (width < 1024) {
+                setVisibleCount(2); // Tablet
+            } else {
+                setVisibleCount(3.5); // Desktop
+            }
+        };
+
+        updateVisibleCount();
+        window.addEventListener("resize", updateVisibleCount);
+        return () => window.removeEventListener("resize", updateVisibleCount);
+    }, []);
 
     const next = () => {
         setIndex((prev) => Math.min(prev + 1, cards.length - visibleCount));
@@ -52,13 +68,14 @@ export default function Card() {
                     }}
                 >
                     {cards.map((card, cardIndex) => {
-                       
+
                         const isActive = cardIndex >= index && cardIndex < index + visibleCount;
 
                         return (
                             <div
                                 key={card.id}
-                                className="flex-shrink-0 w-[calc(100%/3.5)] text-white p-4 relative transition-all duration-500"
+                                className={`flex-shrink-0 text-white p-4 relative transition-all duration-500`}
+                                style={{ width: `${100 / visibleCount}%` }}
                             >
                                 <div className="relative flex flex-col items-center">
                                     {/* Image with dynamic size */}
