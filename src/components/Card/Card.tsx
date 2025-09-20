@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import AnotherBar from "../AnotherBar/AnotherBar";
 import Image, { StaticImageData } from "next/image";
+import { useRouter } from "next/navigation";
 
 import RosettaImg from "@/assets/Rosetta.png";
 import SadnessImg from "@/assets/sadness.png";
@@ -29,8 +30,10 @@ const cards: Card[] = [
 
 
 export default function Card() {
+    const router = useRouter();
     const [index, setIndex] = useState(0);
     const [visibleCount, setVisibleCount] = useState(3.5);
+    const [activeH2, setActiveH2] = useState<number | null>(null);
 
     useEffect(() => {
         const updateVisibleCount = () => {
@@ -74,27 +77,32 @@ export default function Card() {
                         return (
                             <div
                                 key={card.id}
-                                className={`flex-shrink-0 text-white p-4 relative transition-all duration-500`}
+                                className={`flex-shrink-0 text-white p-4 relative transition-all duration-500 group`}
                                 style={{ width: `${100 / visibleCount}%` }}
                             >
                                 <div className="relative flex flex-col items-center">
-                                    {/* Image with dynamic size */}
+                                    {/* Image with hover scale */}
                                     <Image
                                         src={card.image}
                                         alt={card.name}
-                                        className={`object-contain -mb-16 z-20 transition-all duration-500 ${isActive ? "max-h-56" : "max-h-36"
-                                            }`}
+                                        className={`object-contain -mb-16 z-20 transition-transform duration-500 transform ${isActive ? "max-h-56" : "max-h-36"
+                                            } group-hover:scale-110`}
                                     />
-
                                     {/* Card background */}
-                                    <div
-                                        className={`rounded-2xl ${card.color} p-4 pt-20 w-50 z-10`}
-                                    >
+                                    <div className={`rounded-2xl ${card.color} p-4 pt-20 w-50 z-10`}>
                                         <h2 className="text-xl font-medium mt-2">{card.name}</h2>
                                         <p className="text-sm">
                                             <span className="opacity-80 font-light">Movie: </span>
                                             <span className="font-medium">{card.movie}</span>
                                         </p>
+                                        <h2
+                                            // onClick={() => router.push(`/Detail/Detail?cardId=${card.id}`)}
+                                              onClick={() => router.push(`/detail?cardId=${card.id}`)}
+                                            // onClick={() => router.push(`/Detail/${card.id}/Detail.tsx`)}
+                                            className="mt-2 text-white text-sm font-semibold hidden group-hover:block cursor-pointer transition-all duration-300"
+                                        >
+                                            Read File &gt;
+                                        </h2>
                                     </div>
                                 </div>
                             </div>
