@@ -4,6 +4,7 @@ import Image from "next/image";
 import DisneyLogo from "@/assets/DisneyLogo.png";
 import { MagnifyingGlassIcon, Squares2X2Icon } from "@heroicons/react/24/outline";
 
+
 export default function NavBar() {
     return (
         <nav className="w-full flex items-center justify-between bg-white px-4 sm:px-6 py-4">

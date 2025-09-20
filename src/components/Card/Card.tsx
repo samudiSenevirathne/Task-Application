@@ -96,9 +96,7 @@ export default function Card() {
                                             <span className="font-medium">{card.movie}</span>
                                         </p>
                                         <h2
-                                            // onClick={() => router.push(`/Detail/Detail?cardId=${card.id}`)}
                                               onClick={() => router.push(`/detail?cardId=${card.id}`)}
-                                            // onClick={() => router.push(`/Detail/${card.id}/Detail.tsx`)}
                                             className="mt-2 text-white text-sm font-semibold hidden group-hover:block cursor-pointer transition-all duration-300"
                                         >
                                             Read File &gt;
